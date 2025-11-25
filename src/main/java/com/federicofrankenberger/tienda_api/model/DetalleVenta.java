@@ -3,11 +3,12 @@ package com.federicofrankenberger.tienda_api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name="itemsPedido")
 public class DetalleVenta {
@@ -27,7 +28,7 @@ public class DetalleVenta {
     @JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
 
-    public Double getSubtotal(){
-        return producto.getPrecio()*cantidad;
+    public BigDecimal getSubtotal(){
+        return producto.getPrecio().multiply(BigDecimal.valueOf(cantidad));
     }
 }

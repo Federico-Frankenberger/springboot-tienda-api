@@ -7,8 +7,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SucursalDTO {
+public class DetalleVentaDTO {
     private Long id;
-    private String nombre;
-    private String direccion;
+    private String nombreProd;
+    private Double precioProd;
+    private Integer cantProd;
+    private Double subtotal;
 }
