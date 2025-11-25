@@ -12,19 +12,26 @@ import java.util.List;
 @Entity
 @Table(name="clientes")
 public class Cliente {
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long idCliente;
+    private Long id;
+
     @Column(nullable=false)
     private String nombre;
+
     @Column(nullable=false)
     private String apellido;
+
     @Column(unique=true,nullable=false)
     private String dni;
+
     @Column(unique=true,nullable=false)
     private String email;
+
     @Column(unique=true,nullable=false)
     private String telefono;
+
     @Column(nullable=false)
     private String direccion;
 

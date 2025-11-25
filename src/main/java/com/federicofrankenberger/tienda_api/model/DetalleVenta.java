@@ -10,17 +10,21 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name="itemsPedido")
-public class ItemPedido {
+public class DetalleVenta {
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long codigoItem;
+    private Long id;
+
     @Column(nullable=false)
     private Integer cantidad;
+
     @ManyToOne
-    @JoinColumn(name = "codigo_producto", nullable = false)
+    @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
+
     @ManyToOne
-    @JoinColumn(name = "codigo_venta", nullable = false)
+    @JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
 
     public Double getSubtotal(){

@@ -14,15 +14,24 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigoProducto;
+    private Long id;
+
     @Column(unique=true,nullable=false)
     private String nombre;
+
     @Column(nullable=false)
     private String marca;
+
     @Column(nullable=false)
     private Double costo;
+
     @Column(nullable=false)
     private Double precio;
+
     @Column(nullable=false)
     private Double stock;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 }

@@ -3,14 +3,16 @@ package com.federicofrankenberger.tienda_api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name="sucursales")
-public class Sucursal {
+@Table(name="categorias")
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -20,5 +22,8 @@ public class Sucursal {
     private String nombre;
 
     @Column(nullable=false)
-    private String direccion;
+    private String descripcion;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<Producto> productos;
 }

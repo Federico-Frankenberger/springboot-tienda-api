@@ -15,23 +15,31 @@ import java.util.List;
 public class Venta {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long codigoVenta;
+    private Long id;
+
     @Column(nullable=false)
     private LocalDate fechaVenta;
+
     @Column(nullable=false)
     private double total;
+
     @ManyToOne
-    @JoinColumn(name = "codigo_cliente", nullable = false)
+    @JoinColumn(name = "sucursal_id")
+    private Sucursal sucursal;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
+
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemPedido> listaItems;
+    private List<DetalleVenta> listaItems;
 
     @PrePersist
     @PreUpdate
     public void calcularTotal(){
         if(listaItems != null){
             this.total = listaItems.stream()
-                    .mapToDouble(ItemPedido::getSubtotal)
+                    .mapToDouble(DetalleVenta::getSubtotal)
                     .sum();
         }
     }
