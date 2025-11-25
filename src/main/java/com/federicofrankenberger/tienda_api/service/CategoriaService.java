@@ -1,4 +1,6 @@
 package com.federicofrankenberger.tienda_api.service;
 
-public class CategoriaService {
+import com.federicofrankenberger.tienda_api.dto.CategoriaDTO;
+
+public interface CategoriaService extends GenericService<CategoriaDTO,Long> {
 }

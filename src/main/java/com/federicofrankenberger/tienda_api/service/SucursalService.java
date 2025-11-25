@@ -1,4 +1,7 @@
 package com.federicofrankenberger.tienda_api.service;
 
-public class SucursalService {
+
+import com.federicofrankenberger.tienda_api.dto.SucursalDTO;
+
+public interface SucursalService extends GenericService<SucursalDTO,Long> {
 }
