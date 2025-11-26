@@ -4,6 +4,7 @@ import com.federicofrankenberger.tienda_api.model.DetalleVenta;
 import com.federicofrankenberger.tienda_api.model.EstadoVenta;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class VentaDTO {
 
     //detalles venta
@@ -31,6 +33,6 @@ public class VentaDTO {
     private List<DetalleVentaDTO> detalles;
 
     //total de la venta
-    private Double total;
+    private BigDecimal total;
 
 }
