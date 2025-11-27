@@ -2,6 +2,8 @@ package com.federicofrankenberger.tienda_api.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,8 +12,9 @@ import lombok.*;
 @Builder
 public class DetalleVentaDTO {
     private Long id;
+    private Long idProducto;
     private String nombreProd;
-    private Double precioProd;
+    private BigDecimal precioProd;
     private Integer cantProd;
-    private Double subtotal;
+    private BigDecimal subtotal;
 }

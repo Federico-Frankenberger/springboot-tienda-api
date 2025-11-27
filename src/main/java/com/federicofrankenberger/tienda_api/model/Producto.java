@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name="productos")
 public class Producto {
@@ -22,9 +23,6 @@ public class Producto {
 
     @Column(nullable=false)
     private String marca;
-
-    @Column(nullable=false)
-    private BigDecimal costo;
 
     @Column(nullable=false)
     private BigDecimal precio;

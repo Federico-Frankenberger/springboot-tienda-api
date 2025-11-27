@@ -2,12 +2,15 @@ package com.federicofrankenberger.tienda_api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name="clientes")
 public class Cliente {
@@ -35,6 +38,6 @@ public class Cliente {
     private String direccion;
 
     @OneToMany(mappedBy = "cliente")
-    private List<Venta> ventas;
+    private List<Venta> ventas = new ArrayList<>();
 
 }

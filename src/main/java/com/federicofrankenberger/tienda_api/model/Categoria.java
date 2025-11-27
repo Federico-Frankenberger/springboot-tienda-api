@@ -3,12 +3,14 @@ package com.federicofrankenberger.tienda_api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name="categorias")
 public class Categoria {
@@ -24,5 +26,5 @@ public class Categoria {
     private String descripcion;
 
     @OneToMany(mappedBy = "categoria")
-    private List<Producto> productos;
+    private List<Producto> productos = new ArrayList<>();
 }

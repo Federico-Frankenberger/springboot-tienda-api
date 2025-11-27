@@ -19,7 +19,7 @@ public class VentaDTO {
     //detalles venta
     private Long id;
     private LocalDate fecha;
-    private String estado;
+    private EstadoVenta estado;
 
     //datos cliente
     private Long idCliente;

@@ -1,12 +1,13 @@
 package com.federicofrankenberger.tienda_api.service;
 
 import com.federicofrankenberger.tienda_api.dto.ClienteDTO;
+import com.federicofrankenberger.tienda_api.exception.NotFoundException;
+import com.federicofrankenberger.tienda_api.mapper.Mapper;
+import com.federicofrankenberger.tienda_api.model.Cliente;
 import com.federicofrankenberger.tienda_api.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -15,26 +16,48 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO save(ClienteDTO dto) {
-        return null;
+        Cliente cliente = Cliente.builder()
+                .nombre(dto.getNombre())
+                .apellido(dto.getApellido())
+                .dni(dto.getDni())
+                .email(dto.getEmail())
+                .telefono(dto.getTelefono())
+                .direccion(dto.getDireccion())
+                .build();
+
+        return Mapper.toDTO(repo.save(cliente));
     }
 
     @Override
-    public ClienteDTO update(Long aLong, ClienteDTO dto) {
-        return null;
+    public ClienteDTO update(Long id, ClienteDTO dto) {
+        Cliente cliente = repo.findById(id)
+                .orElseThrow(()->new NotFoundException("Cliente no encontrado"));
+        cliente.setNombre(dto.getNombre());
+        cliente.setApellido(dto.getApellido());
+        cliente.setDni(dto.getDni());
+        cliente.setEmail(dto.getEmail());
+        cliente.setTelefono(dto.getTelefono());
+        cliente.setDireccion(dto.getDireccion());
+        return Mapper.toDTO(repo.save(cliente));
     }
 
     @Override
-    public void delete(Long aLong) {
-
+    public void delete(Long id) {
+        if(!repo.existsById(id)){
+            throw new NotFoundException("Cliente no encontrado");
+        }
+        repo.deleteById(id);
     }
 
     @Override
-    public Optional<ClienteDTO> findById(Long aLong) {
-        return Optional.empty();
+    public ClienteDTO findById(Long id) {
+        Cliente cliente = repo.findById(id)
+                .orElseThrow(()->new NotFoundException("Cliente no encontrado"));
+        return Mapper.toDTO(cliente);
     }
 
     @Override
     public List<ClienteDTO> findAll() {
-        return List.of();
+        return repo.findAll().stream().map(Mapper::toDTO).toList();
     }
 }

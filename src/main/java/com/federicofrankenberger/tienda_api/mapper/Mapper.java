@@ -43,6 +43,9 @@ public class Mapper {
                 .marca(producto.getMarca())
                 .precio(producto.getPrecio())
                 .stock(producto.getStock())
+                .idCategoria(producto.getCategoria() != null
+                        ? producto.getCategoria().getId()
+                        : null)
                 .nombreCategoria(producto.getCategoria() != null
                         ? producto.getCategoria().getNombre()
                         : null)
@@ -66,10 +69,11 @@ public class Mapper {
 
         return DetalleVentaDTO.builder()
                 .id(detalle.getId())
+                .idProducto(detalle.getProducto() != null ? detalle.getProducto().getId() : null)
                 .nombreProd(detalle.getProducto() != null ? detalle.getProducto().getNombre() : null)
-                .precioProd(detalle.getProducto() != null ? detalle.getProducto().getPrecio().doubleValue() : null)
+                .precioProd(detalle.getProducto() != null ? detalle.getProducto().getPrecio() : null)
                 .cantProd(detalle.getCantidad())
-                .subtotal(detalle.getSubtotal() != null ? detalle.getSubtotal().doubleValue() : null)
+                .subtotal(detalle.getSubtotal())
                 .build();
     }
 
@@ -80,7 +84,7 @@ public class Mapper {
         return VentaDTO.builder()
                 .id(venta.getId())
                 .fecha(venta.getFechaVenta())
-                .estado(venta.getEstado() != null ? venta.getEstado().name() : null)
+                .estado(venta.getEstado() != null ? venta.getEstado() : null)
 
                 // Datos del cliente
                 .idCliente(venta.getCliente() != null ? venta.getCliente().getId() : null)
