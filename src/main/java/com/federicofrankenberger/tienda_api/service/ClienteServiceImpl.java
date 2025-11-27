@@ -1,6 +1,7 @@
 package com.federicofrankenberger.tienda_api.service;
 
 import com.federicofrankenberger.tienda_api.dto.ClienteDTO;
+import com.federicofrankenberger.tienda_api.exception.DuplicateResourceException;
 import com.federicofrankenberger.tienda_api.exception.NotFoundException;
 import com.federicofrankenberger.tienda_api.mapper.Mapper;
 import com.federicofrankenberger.tienda_api.model.Cliente;
@@ -16,6 +17,15 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO save(ClienteDTO dto) {
+
+        if(repo.existsByDni(dto.getDni())){
+            throw new DuplicateResourceException("DNI ya registrado");
+        }
+
+        if(repo.existsByEmail(dto.getEmail())){
+            throw new DuplicateResourceException("Email ya registrado");
+        }
+
         Cliente cliente = Cliente.builder()
                 .nombre(dto.getNombre())
                 .apellido(dto.getApellido())
@@ -30,8 +40,18 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO update(Long id, ClienteDTO dto) {
+
         Cliente cliente = repo.findById(id)
                 .orElseThrow(()->new NotFoundException("Cliente no encontrado"));
+
+        if (repo.existsByDniAndIdNot(dto.getDni(), id)) {
+            throw new DuplicateResourceException("DNI ya registrado");
+        }
+
+        if (repo.existsByEmailAndIdNot(dto.getEmail(), id)) {
+            throw new DuplicateResourceException("Email ya registrado");
+        }
+
         cliente.setNombre(dto.getNombre());
         cliente.setApellido(dto.getApellido());
         cliente.setDni(dto.getDni());

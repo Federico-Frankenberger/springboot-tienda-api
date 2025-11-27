@@ -4,4 +4,7 @@ import com.federicofrankenberger.tienda_api.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductoRepository extends JpaRepository<Producto,Long> {
+
+    boolean existsByNombre(String nombre);
+    boolean existsByNombreAndIdNot(String nombre, Long id);
 }

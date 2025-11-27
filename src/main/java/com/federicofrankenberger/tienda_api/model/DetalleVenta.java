@@ -21,6 +21,9 @@ public class DetalleVenta {
     @Column(nullable=false)
     private Integer cantidad;
 
+    @Column(nullable=false)
+    private BigDecimal precioUnitario;
+
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
@@ -30,6 +33,6 @@ public class DetalleVenta {
     private Venta venta;
 
     public BigDecimal getSubtotal(){
-        return producto.getPrecio().multiply(BigDecimal.valueOf(cantidad));
+        return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
     }
 }

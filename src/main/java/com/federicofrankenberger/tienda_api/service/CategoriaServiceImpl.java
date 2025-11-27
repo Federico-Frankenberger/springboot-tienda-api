@@ -1,6 +1,7 @@
 package com.federicofrankenberger.tienda_api.service;
 
 import com.federicofrankenberger.tienda_api.dto.CategoriaDTO;
+import com.federicofrankenberger.tienda_api.exception.DuplicateResourceException;
 import com.federicofrankenberger.tienda_api.exception.NotFoundException;
 import com.federicofrankenberger.tienda_api.mapper.Mapper;
 import com.federicofrankenberger.tienda_api.model.Categoria;
@@ -17,6 +18,11 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public CategoriaDTO save(CategoriaDTO dto) {
+
+        if(repo.existsByNombre(dto.getNombre())){
+            throw new DuplicateResourceException("Nombre de categoría ya existe");
+        }
+
         Categoria categoria = Categoria.builder()
                 .nombre(dto.getNombre())
                 .descripcion(dto.getDescripcion())
@@ -26,8 +32,14 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public CategoriaDTO update(Long id, CategoriaDTO dto) {
+
+        if (repo.existsByNombreAndIdNot(dto.getNombre(), id)) {
+            throw new DuplicateResourceException("Nombre de categoría ya existe");
+        }
+
         Categoria cat = repo.findById(id)
                 .orElseThrow(()->new NotFoundException("Categoria no encontrada"));
+
         cat.setNombre(dto.getNombre());
         cat.setDescripcion(dto.getDescripcion());
         return Mapper.toDTO(repo.save(cat));

@@ -2,6 +2,7 @@ package com.federicofrankenberger.tienda_api.service;
 
 import com.federicofrankenberger.tienda_api.dto.DetalleVentaDTO;
 import com.federicofrankenberger.tienda_api.dto.VentaDTO;
+import com.federicofrankenberger.tienda_api.exception.BusinessException;
 import com.federicofrankenberger.tienda_api.exception.NotFoundException;
 import com.federicofrankenberger.tienda_api.mapper.Mapper;
 import com.federicofrankenberger.tienda_api.model.*;
@@ -34,6 +35,10 @@ public class VentaServiceImpl implements VentaService {
     @Transactional
     public VentaDTO save(VentaDTO dto) {
 
+        if (dto.getDetalles() == null || dto.getDetalles().isEmpty()) {
+            throw new BusinessException("La venta debe contener al menos un producto");
+        }
+
         Cliente cliente = clienteRepo.findById(dto.getIdCliente())
                 .orElseThrow(() -> new NotFoundException("Cliente no encontrado"));
 
@@ -53,11 +58,17 @@ public class VentaServiceImpl implements VentaService {
 
         for (DetalleVentaDTO itemDTO : dto.getDetalles()) {
 
+            if (itemDTO.getCantProd() == null || itemDTO.getCantProd() <= 0) {
+                throw new BusinessException(
+                        "La cantidad del producto debe ser mayor a 0 (producto ID: " + itemDTO.getIdProducto() + ")"
+                );
+            }
+
             Producto producto = productoRepo.findById(itemDTO.getIdProducto())
                     .orElseThrow(() -> new NotFoundException("Producto no encontrado"));
 
             if (producto.getStock() < itemDTO.getCantProd()) {
-                throw new RuntimeException("Stock insuficiente para producto " + producto.getNombre());
+                throw new BusinessException("Stock insuficiente para producto " + producto.getNombre());
             }
 
             producto.setStock(producto.getStock() - itemDTO.getCantProd());
@@ -66,6 +77,7 @@ public class VentaServiceImpl implements VentaService {
             DetalleVenta det = new DetalleVenta();
             det.setCantidad(itemDTO.getCantProd());
             det.setProducto(producto);
+            det.setPrecioUnitario(producto.getPrecio());
 
             det.setVenta(venta);
 
@@ -97,8 +109,23 @@ public class VentaServiceImpl implements VentaService {
 
     @Transactional
     public VentaDTO cambiarEstado(Long idVenta, EstadoVenta nuevoEstado) {
+
         Venta venta = ventaRepo.findById(idVenta)
                 .orElseThrow(() -> new NotFoundException("Venta no encontrada"));
+
+
+        if (venta.getEstado() == EstadoVenta.CANCELADA) {
+            throw new BusinessException("No es posible cambiar el estado de una venta cancelada");
+        }
+
+
+        if (venta.getEstado() == EstadoVenta.ABONADA) {
+            throw new BusinessException("No es posible cambiar el estado de una venta abonada");
+        }
+
+        if (venta.getEstado() == nuevoEstado) {
+            throw new BusinessException("La venta ya se encuentra en ese estado");
+        }
 
         venta.setEstado(nuevoEstado);
         return Mapper.toDTO(ventaRepo.save(venta));
@@ -111,7 +138,11 @@ public class VentaServiceImpl implements VentaService {
                 .orElseThrow(() -> new NotFoundException("Venta no encontrada"));
 
         if (venta.getEstado() == EstadoVenta.CANCELADA) {
-            throw new RuntimeException("La venta ya está cancelada");
+            throw new BusinessException("La venta ya está cancelada");
+        }
+
+        if (venta.getEstado() == EstadoVenta.ABONADA) {
+            throw new BusinessException("No se puede cancelar una venta abonada");
         }
 
         venta.getListaItems().forEach(det -> {
