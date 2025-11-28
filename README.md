@@ -18,8 +18,8 @@ El desarrollo se centró en la creación de una arquitectura modular y mantenibl
 * **Arquitectura en Capas:** Separación estricta de responsabilidades (Controller, Service, Repository) para garantizar un código limpio, desacoplado y altamente testearle.
 * **Patrón DTO (Data Transfer Object):** Implementación de objetos de transferencia para aislar las entidades de base de datos de la capa de presentación.
 * **Java Streams API:** Uso de programación funcional para el procesamiento declarativo de colecciones y la transformación eficiente de datos (mapeo Entidad-DTO), reduciendo la complejidad ciclomática del código.
-* **Excepciones Personalizadas y Global Handling:** Desarrollo de excepciones propias del dominio (Custom Exceptions) para manejar reglas de negocio específicas, integradas con un manejador global (*ControllerAdvice*) para devolver respuestas HTTP consistentes y limpias.
-* **API RESTful Estandarizada:** Diseño riguroso de endpoints respetando la semántica de los verbos HTTP (GET, POST, PUT, PATCH, DELETE) y utilizando los códigos de respuesta adecuados (201 Created, 204 No Content).
+* **Excepciones Personalizadas y Global Handling:** Desarrollo de excepciones propias del dominio (Custom Exceptions) para manejar reglas de negocio específicas, para devolver respuestas HTTP consistentes y limpias.
+* **API RESTful Estandarizada:** Diseño riguroso de endpoints respetando la semántica de los verbos HTTP (GET, POST, PUT, PATCH, DELETE).
 * **Docker Ready:** Aplicación contenerizada para facilitar el despliegue en cualquier entorno.
 
 ## 🛠️ Tecnologías y Herramientas
