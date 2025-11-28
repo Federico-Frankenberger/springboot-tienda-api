@@ -26,6 +26,10 @@ public class ClienteServiceImpl implements ClienteService {
             throw new DuplicateResourceException("Email ya registrado");
         }
 
+        if(repo.existsByTelefono(dto.getTelefono())){
+            throw new DuplicateResourceException("Telefono ya registrado");
+        }
+
         Cliente cliente = Cliente.builder()
                 .nombre(dto.getNombre())
                 .apellido(dto.getApellido())
@@ -51,6 +55,11 @@ public class ClienteServiceImpl implements ClienteService {
         if (repo.existsByEmailAndIdNot(dto.getEmail(), id)) {
             throw new DuplicateResourceException("Email ya registrado");
         }
+
+        if (repo.existsByTelefonoAndIdNot(dto.getTelefono(), id)) {
+            throw new DuplicateResourceException("Telefono ya registrado");
+        }
+
 
         cliente.setNombre(dto.getNombre());
         cliente.setApellido(dto.getApellido());

@@ -1,6 +1,5 @@
 package com.federicofrankenberger.tienda_api.dto;
 
-import com.federicofrankenberger.tienda_api.model.DetalleVenta;
 import com.federicofrankenberger.tienda_api.model.EstadoVenta;
 import lombok.*;
 

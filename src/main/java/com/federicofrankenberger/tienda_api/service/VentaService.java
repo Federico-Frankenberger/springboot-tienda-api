@@ -9,5 +9,4 @@ public interface VentaService {
     VentaDTO findById(Long id);
     List<VentaDTO> findAll();
     VentaDTO cambiarEstado(Long id, EstadoVenta estado);
-    VentaDTO cancelarVenta(Long id);
 }

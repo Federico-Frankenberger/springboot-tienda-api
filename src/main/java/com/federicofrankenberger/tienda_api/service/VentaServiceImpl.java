@@ -113,11 +113,9 @@ public class VentaServiceImpl implements VentaService {
         Venta venta = ventaRepo.findById(idVenta)
                 .orElseThrow(() -> new NotFoundException("Venta no encontrada"));
 
-
         if (venta.getEstado() == EstadoVenta.CANCELADA) {
             throw new BusinessException("No es posible cambiar el estado de una venta cancelada");
         }
-
 
         if (venta.getEstado() == EstadoVenta.ABONADA) {
             throw new BusinessException("No es posible cambiar el estado de una venta abonada");
@@ -127,32 +125,15 @@ public class VentaServiceImpl implements VentaService {
             throw new BusinessException("La venta ya se encuentra en ese estado");
         }
 
+        if (nuevoEstado == EstadoVenta.CANCELADA) {
+            venta.getListaItems().forEach(det -> {
+                Producto producto = det.getProducto();
+                producto.setStock(producto.getStock() + det.getCantidad());
+                productoRepo.save(producto);
+            });
+        }
+
         venta.setEstado(nuevoEstado);
-        return Mapper.toDTO(ventaRepo.save(venta));
-    }
-
-    @Transactional
-    public VentaDTO cancelarVenta(Long idVenta) {
-
-        Venta venta = ventaRepo.findById(idVenta)
-                .orElseThrow(() -> new NotFoundException("Venta no encontrada"));
-
-        if (venta.getEstado() == EstadoVenta.CANCELADA) {
-            throw new BusinessException("La venta ya está cancelada");
-        }
-
-        if (venta.getEstado() == EstadoVenta.ABONADA) {
-            throw new BusinessException("No se puede cancelar una venta abonada");
-        }
-
-        venta.getListaItems().forEach(det -> {
-            Producto producto = det.getProducto();
-            producto.setStock(producto.getStock() + det.getCantidad());
-            productoRepo.save(producto);
-        });
-
-        venta.setEstado(EstadoVenta.CANCELADA);
-
         return Mapper.toDTO(ventaRepo.save(venta));
     }
 }
