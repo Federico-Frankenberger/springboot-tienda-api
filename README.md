@@ -7,6 +7,21 @@
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=flat&logo=docker)
 [![Postman](https://img.shields.io/badge/Postman-Download_Collection-orange?logo=postman&style=flat)](./tienda_api_collection.json)
 
+## 📑 Índice
+
+* [Descripción y Características](#-descripción-del-proyecto)
+* [Tecnologías](#-tecnologías-y-herramientas)
+* [Arquitectura](#-arquitectura)
+* [Modelo de Datos (DER)](#-modelo-de-datos-der)
+* [Instalación y Ejecución Local](#-instalación-y-ejecución-local)
+* [Ejecución con Docker](#-ejecución-con-docker)
+* [Testing y Pruebas](#-testing-y-pruebas)
+* [Documentación de Endpoints](#-documentación-de-endpoints)
+* [Roadmap](#-próximos-pasos-roadmap)
+* [Autor](#-autor)
+
+---
+
 ## 📖 Descripción del Proyecto
 
 **Tienda API** es una solución backend robusta y escalable desarrollada con **Java** y **Spring Boot**, diseñada para gestionar integralmente la operatoria comercial de un negocio. La aplicación centraliza la administración de **productos, clientes, sucursales, categorías y ventas** a través de una interfaz RESTful estandarizada.
