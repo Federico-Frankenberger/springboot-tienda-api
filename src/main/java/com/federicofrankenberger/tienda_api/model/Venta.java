@@ -2,37 +2,43 @@ package com.federicofrankenberger.tienda_api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Builder
 @Entity
 @Table(name="ventas")
 public class Venta {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long codigoVenta;
+    private Long id;
+
     @Column(nullable=false)
     private LocalDate fechaVenta;
-    @Column(nullable=false)
-    private double total;
-    @ManyToOne
-    @JoinColumn(name = "codigo_cliente", nullable = false)
-    private Cliente cliente;
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemPedido> listaItems;
 
-    @PrePersist
-    @PreUpdate
-    public void calcularTotal(){
-        if(listaItems != null){
-            this.total = listaItems.stream()
-                    .mapToDouble(ItemPedido::getSubtotal)
-                    .sum();
-        }
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private EstadoVenta estado;
+
+    @Column(nullable=false)
+    private BigDecimal total;
+
+    @ManyToOne
+    @JoinColumn(name = "sucursal_id")
+    private Sucursal sucursal;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleVenta> listaItems = new ArrayList<>();
+
 }
